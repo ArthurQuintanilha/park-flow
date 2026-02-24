@@ -9,6 +9,64 @@
   </div>
 
   <ng-container *ngIf="!loading && !erro">
+    <!-- Dashboard cards -->
+    <section class="mb-8">
+      <h3 class="m-0 mb-4 text-base font-semibold text-[#1A4C7F]">Visão geral</h3>
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4">
+        <div class="bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-lg px-5 py-4 flex flex-col gap-2 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+          <span class="text-xs font-medium text-slate-500 uppercase tracking-wide">Faturamento total</span>
+          <span class="text-2xl font-bold text-[#1A4C7F]">{{ formatarMoeda(totalFaturamento) }}</span>
+        </div>
+        <div class="bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-lg px-5 py-4 flex flex-col gap-2 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+          <span class="text-xs font-medium text-slate-500 uppercase tracking-wide">Total de movimentações</span>
+          <span class="text-xl font-bold text-slate-800">{{ totalMovimentacoes | number:'1.0-0':'pt-BR' }}</span>
+        </div>
+        <div class="bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-lg px-5 py-4 flex flex-col gap-2 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+          <span class="text-xs font-medium text-slate-500 uppercase tracking-wide">Veículos distintos</span>
+          <span class="text-xl font-bold text-slate-800">{{ totalVeiculosDistintos | number:'1.0-0':'pt-BR' }}</span>
+        </div>
+        <div class="bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-lg px-5 py-4 flex flex-col gap-2 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+          <span class="text-xs font-medium text-slate-500 uppercase tracking-wide">Ticket médio</span>
+          <span class="text-xl font-bold text-slate-800">{{ formatarMoeda(ticketMedioGeral) }}</span>
+        </div>
+        <div class="bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-lg px-5 py-4 flex flex-col gap-2 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+          <span class="text-xs font-medium text-slate-500 uppercase tracking-wide">Estacionamentos</span>
+          <span class="text-xl font-bold text-slate-800">{{ quantidadeEstacionamentos | number:'1.0-0':'pt-BR' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+        <h4 class="m-0 mb-4 text-sm font-semibold text-[#1A4C7F]">Faturamento por estacionamento</h4>
+        <apx-chart
+          *ngIf="dados.length"
+          [series]="chartOptionsFaturamento.series"
+          [chart]="chartOptionsFaturamento.chart"
+          [plotOptions]="chartOptionsFaturamento.plotOptions"
+          [colors]="chartOptionsFaturamento.colors"
+          [dataLabels]="chartOptionsFaturamento.dataLabels"
+          [xaxis]="chartOptionsFaturamento.xaxis"
+          [legend]="chartOptionsFaturamento.legend"
+          [tooltip]="chartOptionsFaturamento.tooltip"
+        ></apx-chart>
+        <p *ngIf="!dados.length" class="text-slate-500 text-center py-8">Sem dados para exibir</p>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+        <h4 class="m-0 mb-4 text-sm font-semibold text-[#1A4C7F]">Movimentações por tipo de veículo</h4>
+        <apx-chart
+          *ngIf="dados.length"
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [labels]="chartOptions.labels"
+          [colors]="chartOptions.colors"
+          [legend]="chartOptions.legend"
+          [plotOptions]="chartOptions.plotOptions"
+        ></apx-chart>
+        <p *ngIf="!dados.length" class="text-slate-500 text-center py-8">Sem dados para exibir</p>
+      </div>
+    </section>
+
     <div>
       <h3 class="m-0 mb-4 text-base font-semibold text-[#1A4C7F]">Dados da View (vw_dashboard_estacionamento)</h3>
       <app-data-table
