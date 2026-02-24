@@ -78,17 +78,26 @@ export class HomeComponent implements OnInit {
 
     this.chartOptionsFaturamento = {
       series: [{ name: 'Faturamento', data: faturamentos }],
-      chart: { type: 'bar', height: 260, toolbar: { show: false } },
+      chart: { type: 'bar', height: 400, toolbar: { show: false } },
       plotOptions: {
         bar: {
           borderRadius: 6,
           distributed: true,
-          columnWidth: '60%',
+          columnWidth: '50%',
         },
       },
       colors: ['#1A4C7F', '#00AACC', '#0d6efd', '#198754', '#fd7e14'],
       dataLabels: { enabled: false },
-      xaxis: { categories: labels },
+      xaxis: {
+        categories: labels,
+        labels: {
+          rotate: -45,
+          rotateAlways: true,
+        },
+      },
+      grid: {
+        padding: { left: 10, right: 30, bottom: 20 },
+      },
       legend: { show: false },
       tooltip: {
         y: {
@@ -112,6 +121,8 @@ export class HomeComponent implements OnInit {
               show: true,
               total: {
                 show: true,
+                fontSize: '14px',
+                fontWeight: 'bold',
                 label: 'Movimentações',
                 formatter: () => this.totalMovimentacoes.toLocaleString('pt-BR'),
               },
