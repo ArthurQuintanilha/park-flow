@@ -1,0 +1,12 @@
+/* App shell - main layout */
+:host {
+  display: block;
+  min-height: 100vh;
+
+}
+
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+}

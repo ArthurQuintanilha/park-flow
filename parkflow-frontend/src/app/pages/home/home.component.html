@@ -1,0 +1,23 @@
+<div class="px-2 pb-8">
+
+  <div *ngIf="erro" class="p-3 rounded-md mb-4 bg-red-50 text-red-700 border border-red-200">
+    {{ erro }}
+  </div>
+
+  <div *ngIf="loading" class="flex justify-center items-center py-16">
+    <span class="text-slate-500">Carregando...</span>
+  </div>
+
+  <ng-container *ngIf="!loading && !erro">
+    <div>
+      <h3 class="m-0 mb-4 text-base font-semibold text-[#1A4C7F]">Dados da View (vw_dashboard_estacionamento)</h3>
+      <app-data-table
+        [dataSource]="dataSource"
+        [columns]="columns"
+        emptyMessage="Nenhum registro encontrado."
+        defaultSortColumn="estacionamento"
+        defaultSortDirection="asc"
+      ></app-data-table>
+    </div>
+  </ng-container>
+</div>

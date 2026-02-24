@@ -1,0 +1,39 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.snackbar-success {
+  .mdc-snackbar__surface {
+    background-color: #059669 !important;
+  }
+  .mdc-snackbar__label,
+  .mat-mdc-snack-bar-label {
+    color: white !important;
+  }
+  .mdc-snackbar__action {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
+.snackbar-error {
+  .mdc-snackbar__surface {
+    background-color: #dc2626 !important;
+  }
+  .mdc-snackbar__label,
+  .mat-mdc-snack-bar-label {
+    color: white !important;
+  }
+  .mdc-snackbar__action {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
+.menu-item-danger {
+  color: #b91c1c !important;
+  &:hover {
+    background: #fef2f2 !important;
+  }
+}

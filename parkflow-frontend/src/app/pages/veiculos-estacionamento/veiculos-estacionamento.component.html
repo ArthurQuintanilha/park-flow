@@ -1,0 +1,64 @@
+<div class="px-2">
+  <h1 class="text-3xl font-bold py-4">Veículos</h1>
+
+  <div *ngIf="erro" class="p-3 rounded-md mb-4 bg-red-50 text-red-700 border border-red-200">{{ erro }}</div>
+
+  <div class="bg-slate-100 p-4 rounded-lg mb-6">
+    <h3 class="m-0 mb-4 text-base text-slate-800">{{ editando ? 'Editar veículo' : 'Novo veículo' }}</h3>
+    <div class="grid gap-4 mb-4 grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
+      <div>
+        <app-input inputName="placa" label="Placa" [(ngModel)]="form.placa" name="placa"  ></app-input>
+      </div>
+      <div>
+        <app-input inputName="marca" label="Marca" [(ngModel)]="form.marca" name="marca" ></app-input>
+      </div>
+      <div>
+        <app-input inputName="modelo" label="Modelo" [(ngModel)]="form.modelo" name="modelo" ></app-input>
+      </div>
+      <div>
+        <app-input inputName="cor" label="Cor" [(ngModel)]="form.cor" name="cor" ></app-input>
+      </div>
+      <div>
+        <app-search-select
+          inputName="tipo"
+          [(ngModel)]="form.id_tipo_veiculo"
+          name="tipo"
+          placeholder="Tipo de veículo"
+          [items]="tiposVeiculo"
+          valueKey="id_tipo_veiculo"
+          labelKey="descricao"
+        ></app-search-select>
+      </div>
+      <div>
+        <app-search-select
+          inputName="cliente"
+          [(ngModel)]="form.id_cliente"
+          name="cliente"
+          placeholder="Cliente"
+          [items]="clientes"
+          valueKey="id_cliente"
+          labelKey="nome"
+        ></app-search-select>
+      </div>
+    </div>
+    <div class="flex justify-end gap-2">
+      <button *ngIf="editando" type="button" class="px-4 py-2 rounded-md cursor-pointer text-sm border border-slate-300 bg-white text-slate-700 hover:bg-slate-50" (click)="cancelarEdicao()">Cancelar</button>
+      <button type="button" class="px-4 py-2 rounded-md cursor-pointer text-sm border-none bg-gradient-to-br from-[#1A4C7F] to-[#00AACC] text-white hover:opacity-90" (click)="salvar()">{{ editando ? 'Salvar' : 'Cadastrar' }}</button>
+    </div>
+  </div>
+
+  <app-data-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    emptyMessage="Nenhum veículo cadastrado."
+    defaultSortColumn="id_veiculo"
+    defaultSortDirection="desc"
+  >
+    <ng-template #actionsCell let-item>
+      <div class="inline-flex flex-row flex-nowrap gap-2">
+        <button type="button" class="py-1 px-2 text-xs rounded-md cursor-pointer border-none bg-[#1A4C7F] text-white hover:opacity-90 shrink-0" (click)="iniciarEdicao(item)">Editar</button>
+        <button type="button" class="py-1 px-2 text-xs rounded-md cursor-pointer border-none bg-red-600 text-white hover:opacity-90 shrink-0" (click)="excluir(item.id_veiculo)">Excluir</button>
+      </div>
+    </ng-template>
+  </app-data-table>
+</div>

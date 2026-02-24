@@ -1,0 +1,46 @@
+:host ::ng-deep {
+  /* Header no mesmo azul da nav bar (sem gradiente) */
+  table tr.mat-header-row,
+  table tr.mat-mdc-header-row {
+    background-color: #1A4C7F !important;
+    th {
+      color: #fff !important;
+      .mat-sort-header-arrow,
+      .mat-sort-header-indicator {
+        color: rgba(255, 255, 255, 0.87) !important;
+      }
+    }
+  }
+  /* Listrado: cor sim, cor não */
+  table tr.mat-row:nth-child(even),
+  table tr.mat-mdc-row:nth-child(even) {
+    background-color: #fff;
+  }
+  table tr.mat-row:nth-child(odd),
+  table tr.mat-mdc-row:nth-child(odd) {
+    background-color: #f1f5f9;
+  }
+  /* Linha expandida - ocupa 100% da largura, sem borda branca */
+  tr.expanded-detail-row {
+    background: #f1f5f9 !important;
+  }
+  td.expanded-detail-td {
+    width: 100%;
+    padding: 0 !important;
+    background: #f1f5f9 !important;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+    box-sizing: border-box;
+  }
+  .expanded-detail-cell {
+    width: 100%;
+    min-width: 100%;
+    padding: 1rem;
+    background: #f1f5f9;
+    box-sizing: border-box;
+    ul {
+      margin: 0.5rem 0 0 1rem;
+      padding-left: 1rem;
+    }
+  }
+}

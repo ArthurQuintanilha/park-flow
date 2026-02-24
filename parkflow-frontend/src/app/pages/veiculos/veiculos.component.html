@@ -1,0 +1,59 @@
+<div class="page">
+  <h1>Veículos</h1>
+  <p class="text-gray-600 mb-4">Cadastre os veículos dos clientes.</p>
+
+  <div *ngIf="erro" class="alert alert-error">{{ erro }}</div>
+
+  <div class="form-card">
+    <h3>Novo veículo</h3>
+    <div class="form-grid">
+      <div>
+        <app-input inputName="placa" label="Placa" [(ngModel)]="form.placa" name="placa"></app-input>
+      </div>
+      <div>
+        <app-input inputName="marca" label="Marca" [(ngModel)]="form.marca" name="marca"></app-input>
+      </div>
+      <div>
+        <app-input inputName="modelo" label="Modelo" [(ngModel)]="form.modelo" name="modelo"></app-input>
+      </div>
+      <div>
+        <app-input inputName="cor" label="Cor" [(ngModel)]="form.cor" name="cor"></app-input>
+      </div>
+      <div>
+        <app-search-select
+          inputName="tipo"
+          [(ngModel)]="form.id_tipo_veiculo"
+          name="tipo"
+           [items]="tiposVeiculo"
+          valueKey="id_tipo_veiculo"
+          labelKey="descricao"
+        ></app-search-select>
+      </div>
+      <div>
+        <app-search-select
+          inputName="cliente"
+          [(ngModel)]="form.id_cliente"
+          name="cliente"
+           [items]="clientes"
+          valueKey="id_cliente"
+          labelKey="nome"
+        ></app-search-select>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="salvar()">Cadastrar</button>
+  </div>
+
+  <app-data-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    emptyMessage="Nenhum veículo cadastrado."
+    defaultSortColumn="id_veiculo"
+    defaultSortDirection="desc"
+  >
+    <ng-template #actionsCell let-item>
+      <div class="inline-flex flex-row flex-nowrap gap-2">
+        <button type="button" class="py-1 px-2 text-xs rounded-md cursor-pointer border-none bg-red-600 text-white hover:opacity-90 shrink-0" (click)="excluir(item.id_veiculo)">Excluir</button>
+      </div>
+    </ng-template>
+  </app-data-table>
+</div>

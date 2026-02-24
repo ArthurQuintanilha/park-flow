@@ -1,0 +1,75 @@
+<div class="px-2">
+  <h1 class="text-3xl font-bold py-4">Clientes</h1>
+
+  <div *ngIf="erro" class="p-3 rounded-md mb-4 bg-red-50 text-red-700 border border-red-200">{{ erro }}</div>
+
+  <div class="bg-slate-100 p-4 rounded-lg mb-6">
+    <h3 class="m-0 mb-4 text-base text-slate-800">{{ editando ? 'Editar cliente' : 'Novo cliente' }}</h3>
+    <div class="grid gap-4 mb-4 grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
+      <div>
+        <app-input
+          inputName="nome"
+          label="Nome"
+          [(ngModel)]="form.nome"
+          name="nome"
+        ></app-input>
+      </div>
+      <div>
+        <app-input
+          inputName="cpf"
+          label="CPF"
+          [(ngModel)]="form.cpf"
+           name="cpf"
+        ></app-input>
+      </div>
+      <div>
+        <app-input
+          inputName="telefone"
+          label="Telefone"
+          [(ngModel)]="form.telefone"
+           name="telefone"
+          type="tel"
+        ></app-input>
+      </div>
+      <div>
+        <app-input
+          inputName="email"
+          label="E-mail"
+          [(ngModel)]="form.email"
+           name="email"
+          type="email"
+        ></app-input>
+      </div>
+      <div>
+        <app-search-select
+          inputName="tipo"
+           [(ngModel)]="form.id_tipo_cliente"
+          name="tipo"
+          placeholder="Selecione o tipo"
+          [items]="tiposCliente"
+          valueKey="id_tipo_cliente"
+          labelKey="descricao"
+        ></app-search-select>
+      </div>
+    </div>
+    <div class="flex justify-end gap-2">
+      <button *ngIf="editando" type="button" class="px-4 py-2 rounded-md cursor-pointer text-sm border border-slate-300 bg-white text-slate-700 hover:bg-slate-50" (click)="cancelarEdicao()">Cancelar</button>
+      <button type="button" class="px-4 py-2 rounded-md cursor-pointer text-sm border-none bg-gradient-to-br from-[#1A4C7F] to-[#00AACC] text-white hover:opacity-90" (click)="salvar()">{{ editando ? 'Salvar' : 'Cadastrar' }}</button>
+    </div>
+  </div>
+
+  <app-data-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    emptyMessage="Nenhum cliente cadastrado."
+    defaultSortColumn="id_cliente"
+    defaultSortDirection="desc"
+  >
+    <ng-template #actionsCell let-item>
+      <div class="inline-flex flex-row flex-nowrap gap-2">
+        <button type="button" class="py-1 px-2 text-xs rounded-md cursor-pointer border-none bg-[#1A4C7F] text-white hover:opacity-90 shrink-0" (click)="iniciarEdicao(item)">Editar</button>
+        <button type="button" class="py-1 px-2 text-xs rounded-md cursor-pointer border-none bg-red-600 text-white hover:opacity-90 shrink-0" (click)="excluir(item.id_cliente)">Excluir</button>
+      </div>
+    </ng-template>
+  </app-data-table>
+</div>

@@ -1,0 +1,70 @@
+<div>
+  <div
+    class="relative flex min-h-[44px] w-full overflow-hidden rounded-lg "
+    [ngClass]="{
+      'bg-surface-dark': inputDark,
+      'bg-surface-light': !inputDark,
+    }"
+  >
+    <ng-container *ngIf="type === 'textarea'; else inputBlock">
+      <textarea
+        [placeholder]="placeholder"
+        [value]="value"
+        (input)="onInputHandler($event)"
+        (blur)="onBlur()"
+        [id]="inputName"
+        [name]="inputName"
+        [disabled]="isDisabled"
+        class="peer font-sans text-sm font-normal placeholder:opacity-50 w-full px-4 py-3 text-ink outline-none rounded-lg placeholder:text-neutral-500 {{ class }} {{ minHeightTextArea }}"
+        [ngClass]="{
+          'min-h-[192px]': !minHeightTextArea,
+        }"
+      ></textarea>
+    </ng-container>
+    <ng-template #inputBlock>
+      <input
+        [type]="type !== 'password' ? type : showPassword ? 'text' : 'password'"
+        [placeholder]="placeholder"
+        [value]="value"
+        (input)="onInputHandler($event)"
+        (blur)="onBlur()"
+        (keyup)="onKeyUp($event)"
+        [id]="inputName"
+        [name]="inputName"
+        [min]="min && type === 'datetime-local' ? min : null"
+        [step]="step"
+        [autocomplete]="type === 'password' ? 'new-password' : ''"
+        [disabled]="isDisabled"
+        class="peer font-sans text-sm font-normal placeholder:opacity-50 w-full px-4 py-3 text-ink outline-none rounded-lg placeholder:text-neutral-500 {{ class }}"
+        [ngClass]="{
+          'pt-5 pb-2': label,
+          'py-3': !label,
+          'text-ink-muted': isDisabled && value,
+          'cursor-not-allowed': isDisabled,
+        }"
+      />
+    </ng-template>
+
+    <label
+      *ngIf="label"
+      [for]="inputName"
+      [ngClass]="{
+        'cursor-pointer': !isDisabled,
+        'cursor-not-allowed': isDisabled,
+      }"
+      class="font-sans text-ink-muted absolute left-0 top-0 ps-3 text-xs duration-100 ease-linear select-none peer-placeholder-shown:translate-y-3 peer-placeholder-shown:text-base peer-focus:translate-y-0 peer-focus:text-xs"
+      >{{ label }}</label
+    >
+
+    <div *ngIf="type === 'password'" class="flex items-center justify-center pe-3">
+      <button
+        type="button"
+        class="cursor-pointer rounded-full p-0.5 hover:bg-black/10 border-0 bg-transparent"
+        (click)="togglePasswordVisibility()"
+      >
+        <span class="text-sm">{{ showPassword ? '🙈' : '👁' }}</span>
+      </button>
+    </div>
+  </div>
+  <ng-content></ng-content>
+</div>

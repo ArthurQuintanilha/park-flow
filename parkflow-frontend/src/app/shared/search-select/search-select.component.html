@@ -1,0 +1,70 @@
+<div (click)="onContainerClick()" class="relative w-full">
+  <div
+    class="relative flex h-[50px] min-h-[50px] w-full overflow-hidden rounded-lg"
+    [ngClass]="{
+      'bg-surface-dark': inputDark,
+      'bg-surface-light': !inputDark,
+      'cursor-not-allowed opacity-60': isDisabled,
+    }"
+  >
+    <div class="relative flex min-h-full w-full items-center px-4">
+      <input
+        #inputRef
+        type="text"
+        [value]="isOpen ? searchText : displayLabel"
+        [placeholder]="placeholder"
+        [disabled]="isDisabled"
+        [readonly]="!isOpen"
+        (input)="onSearchInput($event)"
+        (focus)="isOpen = true"
+        (blur)="onBlur()"
+        [id]="inputName"
+        [name]="inputName"
+        class="peer w-full py-3 flex-1 bg-transparent font-sans text-sm font-normal text-ink outline-none placeholder:text-neutral-500"
+      />
+    </div>
+
+    <div class="flex min-h-full items-center pe-2">
+      <button
+        *ngIf="value && !isDisabled"
+        type="button"
+        (click)="clearSelection($event)"
+        class="cursor-pointer rounded-full p-1 hover:bg-black/10 border-0 bg-transparent"
+        aria-label="Remover seleção"
+      >
+        <span class="text-ink-muted text-sm">✕</span>
+      </button>
+      <span
+        (click)="isOpen = false; $event.stopPropagation()"
+        class="cursor-pointer text-ink-muted ml-1 text-xs select-none"
+        [class.rotate-180]="isOpen"
+      >▼</span>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isOpen"
+    class="absolute left-0 right-0 z-50 mt-1 max-h-60 overflow-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+  >
+    <div
+      *ngIf="isLoading"
+      class="px-4 py-3 text-center text-sm text-ink-muted"
+    >
+      Carregando...
+    </div>
+    <button
+      *ngFor="let item of filteredItems"
+      type="button"
+      (mousedown)="selectItem(item); $event.preventDefault()"
+      class="w-full px-4 py-2 text-left text-ink hover:bg-gray-100 font-sans text-sm"
+    >
+      {{ item.label }}
+    </button>
+    <div
+      *ngIf="!isLoading && filteredItems.length === 0"
+      class="px-4 py-3 text-center text-sm text-ink-muted"
+    >
+      Nenhum resultado
+    </div>
+  </div>
+</div>

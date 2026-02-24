@@ -1,0 +1,67 @@
+<div class="px-2">
+  <h1 class="text-3xl font-bold py-4">Estacionamentos</h1>
+
+  <div *ngIf="erro" class="p-3 rounded-md mb-4 bg-red-50 text-red-700 border border-red-200">{{ erro }}</div>
+
+  <div class="bg-slate-100 p-4 rounded-lg mb-6">
+    <h3 class="m-0 mb-4 text-base text-slate-800">{{ editando ? 'Editar estacionamento' : 'Novo estacionamento' }}</h3>
+    <div class="grid gap-4 mb-4 grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
+      <div>
+        <app-input inputName="nome" label="Nome" [(ngModel)]="form.nome" name="nome" ></app-input>
+      </div>
+      <div>
+        <app-input inputName="endereco" label="Endereço" [(ngModel)]="form.endereco" name="endereco" ></app-input>
+      </div>
+      <div>
+        <app-input inputName="cidade" label="Cidade" [(ngModel)]="form.cidade" name="cidade"></app-input>
+      </div>
+    </div>
+    <div class="flex justify-end gap-2">
+      <button *ngIf="editando" type="button" class="px-4 py-2 rounded-md cursor-pointer text-sm border border-slate-300 bg-white text-slate-700 hover:bg-slate-50" (click)="cancelarEdicao()">Cancelar</button>
+      <button type="button" class="px-4 py-2 rounded-md cursor-pointer text-sm border-none bg-gradient-to-br from-[#1A4C7F] to-[#00AACC] text-white hover:opacity-90" (click)="salvar()">{{ editando ? 'Salvar' : 'Cadastrar' }}</button>
+    </div>
+  </div>
+
+  <app-data-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [expandableRowTemplate]="expandableRow"
+    [expandedRowWhen]="expandedRowWhen"
+    emptyMessage="Nenhum estacionamento cadastrado."
+    defaultSortColumn="id_estacionamento"
+    defaultSortDirection="desc"
+  >
+    <ng-template #actionsCell let-item>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          class="py-1 px-2 text-xs rounded-md cursor-pointer border-none bg-[#1A4C7F] text-white hover:opacity-90 shrink-0"
+          (click)="verVagas(item.id_estacionamento)"
+        >
+          {{ vagasAbertas === item.id_estacionamento ? 'Ocultar vagas' : 'Ver vagas' }}
+        </button>
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menuAcoes"
+          aria-label="Ações"
+          class=" min-w-0 inline-flex items-center justify-center self-center [&_.mat-icon]:!text-2xl [&_.mat-icon]:!w-6 [&_.mat-icon]:!h-6"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menuAcoes="matMenu" xPosition="before" yPosition="below">
+          <button mat-menu-item (click)="iniciarEdicao(item)">Editar</button>
+          <button mat-menu-item class="menu-item-danger" (click)="excluir(item.id_estacionamento)">Excluir</button>
+        </mat-menu>
+      </div>
+    </ng-template>
+    <ng-template #expandableRow let-item>
+      <strong>Vagas:</strong>
+      <ul *ngIf="vagasPorEstacionamento[item.id_estacionamento]?.length; else semVagas">
+        <li *ngFor="let v of vagasPorEstacionamento[item.id_estacionamento]">
+          Vaga {{ v.numero }} – {{ v.tipo_vaga_descricao || 'Tipo ' + v.id_tipo_vaga }}
+        </li>
+      </ul>
+      <ng-template #semVagas><span class="text-gray-500">Nenhuma vaga cadastrada.</span></ng-template>
+    </ng-template>
+  </app-data-table>
+</div>

@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+input[readonly] {
+  cursor: pointer;
+}
+
+input[readonly]:not(:disabled):focus {
+  cursor: text;
+}
